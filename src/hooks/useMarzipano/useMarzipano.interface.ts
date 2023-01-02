@@ -1,5 +1,3 @@
-import { PanoPosition } from '@habx/lib-housing-panoramas'
-
 export interface PanoLevel {
   tileSize: number
   size: number
@@ -11,6 +9,11 @@ export interface PanoScene {
   cubeMapPreviewUrl?: string
   faceSize: number
   levels: PanoLevel[]
+}
+
+export interface PanoPosition {
+  pitch: number
+  yaw: number
 }
 
 export interface PanoViewParameters extends Partial<PanoPosition> {
