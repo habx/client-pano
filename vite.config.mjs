@@ -6,4 +6,5 @@ export default defineConfig(async (params) => mergeConfig(await buildDefaultConf
   server: {
     port: 3000,
   },
+  base: '/client-pano/'
 }, true))
