@@ -1,6 +1,6 @@
 # Client for marzipano project view
 
-See it live at [here](https://habx.github.io/client-pano/?projectSlug=caen-detolle).
+See it live [here](https://habx.github.io/client-pano/?projectSlug=caen-detolle).
 
 ## Installation
 
