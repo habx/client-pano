@@ -1,4 +1,0 @@
-{
-  "schemaPath": "./schema.graphql",
-  "excludes": ["*.graphql"]
-}
