@@ -1,16 +1,23 @@
-# 🗒 Template for client creation
+# Client for marzipano project view
 
-### What's in here ?
-* Appolo client configuration with some of our apis
-* Eslint
-* Graphql lint + typechecking
-* Typescript + aliases
-* ACL setup
-* Navbar with hello world page
+See it live at [here](https://habx.github.io/client-pano/?projectSlug=caen-detolle).
 
-### What to change when you use this template ?
+## Installation
 
-* Port to run the client so other clients are not in conflict
-* router basename in `App.ts`
-* sentry config
-* segment config
+```bash
+npm ci 
+```
+
+## Run
+
+```bash
+npm run start
+```
+
+Then open [http://localhost:8080](http://localhost:8080) in your browser with the project slug query parameter.
+
+eg: [http://localhost:8080/client-pano?projectSlug=caen-detolle](http://localhost:8080/client-pano?projectSlug=caen-detolle)
+
+# Structure
+
+All files are included in the `public` folder. To add a new project, add you manifest with the marzipano files.
