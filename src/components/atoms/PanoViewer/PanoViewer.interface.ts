@@ -1,9 +1,10 @@
 import { Scene, ViewerOptions } from 'marzipano'
 import * as React from 'react'
 
-import { PanoPosition } from '@habx/lib-housing-panoramas'
-
-import { PanoScene } from '@/hooks/useMarzipano/useMarzipano.interface'
+import {
+  PanoPosition,
+  PanoScene,
+} from '@/hooks/useMarzipano/useMarzipano.interface'
 
 export interface ZoomHandler {
   onZoomIn: () => void
