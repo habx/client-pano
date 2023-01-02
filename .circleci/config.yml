@@ -1,0 +1,148 @@
+version: 2.1
+
+# --- Anchor alias ---- #
+alias:
+# ---- Jobs filters ---- #
+  - &filters_only_dev
+    branches:
+      only: dev
+    tags:
+      ignore: /.*/
+  - &filters_only_branch
+    branches:
+      ignore:
+        - dev
+    tags:
+      ignore: /.*/
+  - &filters_only_tags
+    branches:
+      ignore: /.*/
+    tags:
+      only: /^v.*/
+
+orbs:
+  # docs: https://circleci.com/developer/orbs/orb/habx/containers
+  containers: habx/containers@0.11.0
+  # docs: https://circleci.com/developer/orbs/orb/habx/sentry
+  sentry: habx/sentry@0.5.0
+  # docs: https://circleci.com/developer/orbs/orb/habx/node
+  node: habx/node@1.4.0
+  # docs: https://circleci.com/developer/orbs/orb/habx/devops-build-infos
+  build-infos: habx/devops-build-infos@3.0.1
+  cypress: cypress-io/cypress@2.2.0
+
+# --- END --- #
+# --------------------------------------------------- #
+# -------------- DEFINE YOUR WORKFLOW --------------- #
+# --------------------------------------------------- #
+
+kubernetes-config: &kubernetes-config
+  container-image-updates: ${CIRCLE_PROJECT_REPONAME}=${AWS_ECR_ACCOUNT_URL}/${CIRCLE_PROJECT_REPONAME}:$(if [ -z "$CIRCLE_TAG" ]; then echo $(echo $CIRCLE_BRANCH | sed 's/\/\|@//g')-${CIRCLE_SHA1:0:7}; else echo $CIRCLE_TAG; fi)
+  resource-name: deployment/${CIRCLE_PROJECT_REPONAME}
+  namespace: $(if [ -z "$CIRCLE_TAG" ]; then echo dev; else echo staging; fi)
+
+docker-config: &docker-config
+  build-infos-cache-key: v1
+  repo: ${CIRCLE_PROJECT_REPONAME}
+  tag: $(if [ -z "$CIRCLE_TAG" ]; then echo $(echo $CIRCLE_BRANCH | sed 's/\/\|@//g')-${CIRCLE_SHA1:0:7}; else echo $CIRCLE_TAG; fi)
+  extra-build-args: --build-arg REVISION="$(git rev-parse --short HEAD)" --build-arg CREATED="$(date -u +"%Y-%m-%dT%H:%M:%SZ")" --build-arg VERSION="$(cat version.txt)" --build-arg TITLE="${CIRCLE_PROJECT_REPONAME}" --build-arg SOURCE="${CIRCLE_REPOSITORY_URL}" --build-arg AUTHORS="${CIRCLE_USERNAME}"
+
+public-url-config: &public-url-config
+  client_public_url: https://cdn.habx.com/apps/${CIRCLE_PROJECT_REPONAME}/$(if [ -z "$CIRCLE_TAG" ]; then echo $(echo $CIRCLE_BRANCH | sed 's/\/\|@//g')-${CIRCLE_SHA1:0:7}; else echo $CIRCLE_TAG; fi)$(if [ -n "$CUSTOM_CDN_URL_PREFIX" ]; then echo $CUSTOM_CDN_URL_PREFIX; fi)
+
+sentry-config: &sentry-config
+  url_prefix: https://cdn.habx.com/apps/${CIRCLE_PROJECT_REPONAME}/$(if [ -z "$CIRCLE_TAG" ]; then echo $(echo $CIRCLE_BRANCH | sed 's/\/\|@//g')-${CIRCLE_SHA1:0:7}; else echo $CIRCLE_TAG; fi)
+  org: habx
+
+s3-assets-config: &s3-assets-config
+  from: build
+  to: s3://habx-cdn/apps/${CIRCLE_PROJECT_REPONAME}/$(if [ -z "$CIRCLE_TAG" ]; then echo $(echo $CIRCLE_BRANCH | sed 's/\/\|@//g')-${CIRCLE_SHA1:0:7}; else echo $CIRCLE_TAG; fi)
+  arguments: |
+    --exclude "*.map" \
+    --recursive \
+    --cache-control "public, max-age=31536000" \
+    --acl public-read
+workflows:
+  tests:
+    jobs:
+      - node/build:
+          context: default_env_vars
+          <<: *public-url-config
+          filters:
+            <<: *filters_only_branch
+  deploy_to_eks_ns_dev:
+    jobs:
+      - node/build:
+          context: default_env_vars
+          <<: *public-url-config
+          filters:
+            <<: *filters_only_dev
+      - sentry/deploys:
+          context: sentry
+          <<: *sentry-config
+          env: dev
+          filters:
+            <<: *filters_only_dev
+          requires:
+            - node/build
+      - node/deploys-client-assets:
+          context: default_env_vars
+          <<: *s3-assets-config
+          filters:
+            <<: *filters_only_dev
+          requires:
+            - node/build
+      - containers/build-and-push-with-ecr:
+          context: default_env_vars
+          <<: *docker-config
+          filters:
+            <<: *filters_only_dev
+          requires:
+            - node/build
+      - containers/deploy-to-eks:
+          context: default_env_vars
+          <<: *kubernetes-config
+          requires:
+            - containers/build-and-push-with-ecr
+            - node/deploys-client-assets
+          filters:
+            <<: *filters_only_dev
+
+  release_and_deploy_to_eks_ns_staging:
+    jobs:
+      - node/build:
+          context: default_env_vars
+          <<: *public-url-config
+          filters:
+            <<: *filters_only_tags
+      - sentry/deploys:
+          context: default_env_vars
+          <<: *sentry-config
+          env: staging
+          filters:
+            <<: *filters_only_tags
+          requires:
+            - node/build
+      - node/deploys-client-assets:
+          context: default_env_vars
+          <<: *s3-assets-config
+          filters:
+            <<: *filters_only_tags
+          requires:
+            - node/build
+      - containers/build-and-push-with-ecr:
+          context: default_env_vars
+          <<: *docker-config
+          filters:
+            <<: *filters_only_tags
+          requires:
+            - node/build
+      - containers/deploy-to-eks:
+          context: default_env_vars
+          <<: *kubernetes-config
+          requires:
+            - containers/build-and-push-with-ecr
+            - node/deploys-client-assets
+          filters:
+            <<: *filters_only_tags
+            

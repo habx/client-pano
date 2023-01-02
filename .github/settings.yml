@@ -1,0 +1,4 @@
+# https://github.com/habx/devops-repo-shared-configs/blob/dev/github-settings/ts-client.yml
+# 2022-03-21
+# last_update: 2022-11-15
+_extends: devops-repo-shared-configs:github-settings/ts-client.yml
