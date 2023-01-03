@@ -28,6 +28,7 @@ export const SurroundingsPanoViewer = React.forwardRef<
 
   return (
     <PanoViewer
+      projectSlug={projectSlug}
       autorotate={false}
       {...props}
       initialView={initialView}

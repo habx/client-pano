@@ -21,5 +21,4 @@ export interface SurroundingsPanoViewerProps
   extends Omit<PanoViewerProps, 'sceneData'> {
   onReady?: (isReady: boolean) => void
   manifest: PanoramaManifest
-  projectSlug?: string
 }

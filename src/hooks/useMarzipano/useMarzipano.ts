@@ -33,11 +33,19 @@ const makeMarzipanoSource = (sourceData: PanoSourceParams = {}) => {
   )
 }
 
-const useMarzipanoSource = (sourceData: PanoSourceParams = {}) => {
-  const { baseUrl, urlFunction, cubeMapPreviewUrl } = sourceData
+const useMarzipanoSource = (
+  projectSlug: string,
+  sourceData: PanoSourceParams = {}
+) => {
+  const { urlFunction, cubeMapPreviewUrl } = sourceData
   return React.useMemo(
-    () => makeMarzipanoSource({ baseUrl, urlFunction, cubeMapPreviewUrl }),
-    [baseUrl, urlFunction, cubeMapPreviewUrl]
+    () =>
+      makeMarzipanoSource({
+        baseUrl: `${import.meta.env.BASE_URL}/${projectSlug}`,
+        urlFunction,
+        cubeMapPreviewUrl,
+      }),
+    [urlFunction, cubeMapPreviewUrl]
   )
 }
 
@@ -102,6 +110,7 @@ interface UseMarzipanoParams {
   initialViewParameters: PanoViewParameters
   autorotate?: boolean
   viewerOptions?: Partial<ViewerOptions>
+  projectSlug: string
 }
 
 const DEFAULT_VIEWER_OPTIONS: ViewerOptions = {
@@ -127,6 +136,7 @@ export const useMarzipanoViewer = (
 
 export const useMarzipano = (params: UseMarzipanoParams) => {
   const {
+    projectSlug,
     sceneData,
     initialViewParameters,
     autorotate: enableAutorotate = true,
@@ -139,7 +149,7 @@ export const useMarzipano = (params: UseMarzipanoParams) => {
 
   const viewer = useMarzipanoViewer(ref.current, viewerOptions)
 
-  const source = useMarzipanoSource(sceneData)
+  const source = useMarzipanoSource(projectSlug, sceneData)
   const geometry = useMarzipanoGeometry(sceneData.levels)
 
   const control = useDirectControlMethod(viewer)
