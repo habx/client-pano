@@ -36,6 +36,7 @@ export interface PanoViewerProps {
    */
   viewId?: string | null
   sceneData: PanoScene
+  projectSlug: string
   children?: React.ReactNode
   loadTimeout?: number
   fov?: number

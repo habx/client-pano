@@ -22,6 +22,7 @@ export const PanoViewer = React.forwardRef<PanoViewerState, PanoViewerProps>(
       autorotate = true,
       viewerOptions,
       initialView,
+      projectSlug,
     } = props
 
     const initialViewParameters = React.useMemo(
@@ -40,6 +41,7 @@ export const PanoViewer = React.forwardRef<PanoViewerState, PanoViewerProps>(
       initialViewParameters,
       autorotate,
       viewerOptions,
+      projectSlug,
     })
 
     React.useEffect(() => {
