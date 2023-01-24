@@ -1,0 +1,132 @@
+{
+  "sceneData": {
+    "id": "0-insertion-lyon-vertuo",
+    "name": "Insertion-lyon-vertuo",
+    "levels": [
+      {
+        "size": 256,
+        "tileSize": 256,
+        "fallbackOnly": true
+      },
+      {
+        "size": 512,
+        "tileSize": 512
+      },
+      {
+        "size": 1024,
+        "tileSize": 512
+      },
+      {
+        "size": 2048,
+        "tileSize": 512
+      },
+      {
+        "size": 4096,
+        "tileSize": 512
+      },
+      {
+        "size": 8192,
+        "tileSize": 512
+      }
+    ],
+    "baseUrl": "https://s3.eu-west-1.amazonaws.com/prod-service-documents/projects/lyon-vertuo-part-dieu/files/ae5b8125-f311-4103-9e59-6fea7296bfcc/expanded/app-files/tiles/0-insertion-lyon-vertuo",
+    "faceSize": 5750,
+    "linkHotspots": [],
+    "initialViewParameters": {
+      "fov": 1.1829924806684755,
+      "yaw": 0.1954321827586707,
+      "pitch": 0.4141528675974726
+    }
+  },
+  "infoHotspots": [
+    {
+      "yaw": -0.04567885292390805,
+      "meta": {
+        "color": "#FFFFFF",
+        "projectLogo": "//res.cloudinary.com/habx/image/upload/w_600,c_scale/projects/lyon-vertuo-part-dieu/LOGO_OPERATION_ICADE_1674556939870"
+      },
+      "text": "Text",
+      "pitch": 0.42012126480248924,
+      "style": "project",
+      "title": "Vertuo Part-Dieu"
+    },
+    {
+      "yaw": 0.6761722696724384,
+      "text": "Text",
+      "pitch": 0.21704028956759913,
+      "title": "Centre commercial Westfield La Part-Dieu"
+    },
+    {
+      "yaw": 1.4351602403260886,
+      "text": "Text",
+      "pitch": 0.17290001031958724,
+      "title": "Gare Lyon Part-Dieu"
+    },
+    {
+      "yaw": 1.189277327936395,
+      "text": "Text",
+      "pitch": 0.1923976563263725,
+      "title": "Arrêt de bus Lyon Part-Dieu"
+    },
+    {
+      "yaw": 0.8401013795663417,
+      "text": "Text",
+      "pitch": 0.0235152364876825,
+      "title": "Parc de la Tête d'Or"
+    },
+    {
+      "yaw": -0.3040920589343141,
+      "text": "Text",
+      "pitch": -0.03810748105564343,
+      "title": "Basilique Notre Dame de Fourvière"
+    },
+    {
+      "yaw": -0.5088603489838484,
+      "text": "Text",
+      "pitch": 0.025818101680039618,
+      "title": "Place Bellecour"
+    },
+    {
+      "yaw": -0.26947511900391774,
+      "text": "Text",
+      "pitch": 0.02873239686994289,
+      "title": "Vieux Lyon"
+    },
+    {
+      "yaw": -0.5384974483619445,
+      "text": "Text",
+      "pitch": 0.910190355615816,
+      "title": "La Boulangerie Desaix"
+    },
+    {
+      "yaw": -1.3869010984678773,
+      "text": "Text",
+      "pitch": 0.8896666574957504,
+      "title": "Pharmacie Rize Part-Dieu"
+    },
+    {
+      "yaw": -1.1600413500447146,
+      "text": "Text",
+      "pitch": 0.7705130305636132,
+      "title": "Super U"
+    },
+    {
+      "yaw": -1.4519912942735296,
+      "text": "Text",
+      "pitch": 0.07474203804486024,
+      "title": "Piscine Garibaldi"
+    },
+    {
+      "yaw": -1.251237703746984,
+      "text": "Text",
+      "pitch": 0.1696908965532664,
+      "title": "Maternelle Dolet"
+    },
+    {
+      "yaw": 1.1324973887273142,
+      "text": "Text",
+      "pitch": 0.03737486640497778,
+      "title": "Lycée du Parc"
+    }
+  ]
+}

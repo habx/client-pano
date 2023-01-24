@@ -43,3 +43,4 @@ All files are included in the `public` folder. To add a new project, add you man
   * francheville-eglise 
   * saint-alban-leysse-bemaz 
   * erdeven-nationale
+  * lyon-vertuo-part-dieu
